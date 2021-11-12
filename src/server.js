@@ -1,48 +1,40 @@
-import express from "express"
-import listEndpoints from "express-list-endpoints"
-import mongoose from "mongoose"
-import cors from "cors"
-import dotenv from "dotenv"
+import express from "express";
+import listEndpoints from "express-list-endpoints";
+import mongoose from "mongoose";
+import cors from "cors";
+import dotenv from "dotenv";
+import authRouter from "../src/auth/index.js"
+import cartRouter from "./services/cart/index.js";
+import productsRouter from "./services/products/index.js";
+// import userRouter from "../src/services/users/index.js";
 
-import cartRouter from "./services/cart/index.js"
-import productsRouter from "./services/products/index.js"
-import userRouter from "../src/services/users/index.js"
+dotenv.config();
 
+const server = express();
 
-
-dotenv.config()
-
-
-
-const server = express()
-
-server.use(cors())
-server.use(express.json())
-
+server.use(cors());
+server.use(express.json());
 
 // **************** ENDPOINTS ****************
+server.use("/cart", cartRouter);
+server.use("/product", productsRouter);
+server.use("/auth/", authRouter);
+// server.use("/users", userRouter);
 
-const port = 3001
+// mongoose getting-started.js
+main().catch((err) => console.log(err));
 
-server.use('/cart', cartRouter)
-server.use('/product', productsRouter)
-server.use('/user', userRouter)
+async function main() {
+  await mongoose.connect(process.env.MONGO_URL);
+  console.log("❤ DB is running succesfully")
+}
 
-
-
-
-mongoose.connect(process.env.URL2)
-
-mongoose.connection.on("connected", () => {
-  console.log("Mongo Connected!")
-
+console.table(listEndpoints(server));
+const port = 3001;
 server.listen(port, () => {
-    console.table(listEndpoints(server))
+  console.log(`😎 Server is running on port ${port}`);
+});
 
-    console.log(`Server running on port ${port}`)
-  })
-})
-
-mongoose.connection.on("error", err => {
-  console.log(err)
-})
+server.on("error", (err) => {
+  console.log(err);
+});

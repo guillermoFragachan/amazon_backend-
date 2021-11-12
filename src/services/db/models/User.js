@@ -29,4 +29,4 @@ const UserModel = new Schema(
 
 
 
-export default model("UserModel", UserModelSchema)
+export default model("UserModel", UserModel)
