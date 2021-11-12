@@ -32,10 +32,7 @@ authRouter.post("/login", async (req, res) => {
     // find the user. if email = request (req.body.email)
     const user = await UserModel.findOne({ email: req.body.email });
     // if there is no user with that email send a status error
-    if (!user) {
-      return res.status(401).json({ message: "Auth failed" });
-    }
-    
+    !user && res.status(401).json("Wrong password or username!");
 
     // crypto-js script to decrypt password
     const bytes = CryptoJS.AES.decrypt(user.password, process.env.SECRET_KEY);
