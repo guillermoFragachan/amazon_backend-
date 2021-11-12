@@ -1,6 +1,9 @@
 import express from "express"
 import CartModel from "./shcema.js"
-// import BookModel from "./shemabook.js"
+// import ProductModel from "./shemabook.js"
+import ProductModel from "../products/schema.js"
+
+
 
 import q2m from "query-to-mongo"
 
@@ -14,7 +17,7 @@ const cartRouter = express.Router()
 
 // cartRouter.post("/p", async (req, res, next) => {
  
-//       const newBook = new BookModel(req.body)
+//       const newBook = new ProductModel(req.body)
 //       const { _id } = await newBook.save()
 //       res.status(201).send({ _id })
     
@@ -24,9 +27,9 @@ const cartRouter = express.Router()
 //     try {
 //       const mongoQuery = q2m(req.query)
 //       console.log(mongoQuery)
-//       const { total, books } = await Bookmodel.findBookWithAuthors(mongoQuery)
+//       const { total, products } = await ProductModel.findBookWithAuthors(mongoQuery)
   
-//       res.send({ links: mongoQuery.links("/books", total), pageTotal: Math.ceil(total / mongoQuery.options.limit), total, books })
+//       res.send({ links: mongoQuery.links("/products", total), pageTotal: Math.ceil(total / mongoQuery.options.limit), total, products })
 //     } catch (error) {
 //       next(error)
 //     }
@@ -40,16 +43,24 @@ const cartRouter = express.Router()
     
       // We are going to receive bookId and quantity in req.body
   
-      // 1. Find book in books collection by bookId
+      // 1. Find book in products collection by bookId
   
-      const { books } = req.body
+      const { products } = req.body
+
+      
+
+     
+
   
-      const purchasedBook = await BookModel.findById(books)
+      const purchasedBook = await ProductModel.findById(products)
+      const products123 = await ProductModel.find()
+
+      console.log(products123)
   
       if (purchasedBook) {
         // 2. Is the product already in the active cart of the specified ownerId?
   
-        const isBookThere = await CartModel.findOne({"books": purchasedBook._id })
+        const isBookThere = await CartModel.findOne({"products": purchasedBook._id })
   
         
           // 4. If product is not there --> add it to cart
@@ -72,7 +83,7 @@ const cartRouter = express.Router()
    
   })
 
-    cartRouter.get("/:ownerId", async (req, res, next) => {
+    cartRouter.get("/", async (req, res, next) => {
 
         // 1. Find cart by ownerId
         const cart = await CartModel.find({ status: "active" })
