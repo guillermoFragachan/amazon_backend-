@@ -8,6 +8,8 @@ import dotenv from "dotenv"
 import userRouter from "../src/services/users/index.js"
 import cartRouter from "./services/cart/index.js"
 
+
+
 dotenv.config()
 
 
@@ -18,12 +20,8 @@ server.use(express.json())
 
 
 // **************** ENDPOINTS ****************
-server.use("/user", userRouter)
+
 const port = 3001
-
-
-// server.use("/author", authorsRouter)
-server.use("/cart", cartRouter)
 
 
 
