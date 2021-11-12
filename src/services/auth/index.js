@@ -1,5 +1,5 @@
 import express from "express";
-import UserModel from "../services/db/models/User.js";
+import UserModel from "../db/models/User.js";
 import CryptoJS from "crypto-js";
 import jwt from "jsonwebtoken";
 

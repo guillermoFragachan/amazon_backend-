@@ -3,10 +3,10 @@ import listEndpoints from "express-list-endpoints";
 import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
-import authRouter from "../src/auth/index.js"
+import authRouter from "./services/auth/index.js"
 import cartRouter from "./services/cart/index.js";
 import productsRouter from "./services/products/index.js";
-// import userRouter from "../src/services/users/index.js";
+import usersRouter from "../src/services/users/index.js";
 
 dotenv.config();
 
@@ -19,6 +19,8 @@ server.use(express.json());
 server.use("/cart", cartRouter);
 server.use("/product", productsRouter);
 server.use("/auth/", authRouter);
+server.use("/users/", usersRouter);
+
 // server.use("/users", userRouter);
 
 // mongoose getting-started.js
