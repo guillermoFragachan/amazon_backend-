@@ -5,6 +5,9 @@ import cors from "cors"
 import dotenv from "dotenv"
 
 
+import userRouter from "../src/services/users/index.js"
+import cartRouter from "./services/cart/index.js"
+
 
 
 dotenv.config()
@@ -19,10 +22,6 @@ server.use(express.json())
 // **************** ENDPOINTS ****************
 
 const port = 3001
-
-
-
-
 
 
 
