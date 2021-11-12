@@ -1,18 +1,27 @@
-import mongoose from "mongoose"
+// import mongoose from "mongoose"
 
-const { Schema, model } = mongoose
+// const { Schema, model } = mongoose
 
 
 
-const BookModel = new Schema(
+
+// const BookModel = new Schema(
  
  
  
-  {
-      name: { type: String, required: true },
-      title: { type: String, required: true },
-    },
-    { timestamps: true }
-  )
+//   {
 
-  export default model("Book", BookModel)
+// const bookSchema = new Schema(
+//     {
+// >>>>>>> main
+//       name: { type: String, required: true },
+//       title: { type: String, required: true },
+//     },
+//     { timestamps: true }
+//   )
+
+// <<<<<<< william
+//   export default model("Book", BookModel)
+// =======
+//   export default model("Book", bookSchema)
+// >>>>>>> main
