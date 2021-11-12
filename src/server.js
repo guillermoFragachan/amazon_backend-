@@ -27,7 +27,7 @@ server.use("/cart", cartRouter)
 
 
 
-mongoose.connect(process.env.URL)
+mongoose.connect(process.env.URL2)
 
 mongoose.connection.on("connected", () => {
   console.log("Mongo Connected!")
