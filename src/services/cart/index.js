@@ -1,38 +1,36 @@
 import express from "express"
 import CartModel from "./shcema.js"
-import BookModel from "./shemabook.js"
+// import BookModel from "./shemabook.js"
 
 import q2m from "query-to-mongo"
 
 
 
 
-/*************PRODUCT GET POST***************/
+// /*************PRODUCT GET POST***************/
 
 const cartRouter = express.Router()
 
 
-cartRouter.post("/p", async (req, res, next) => {
-    try {
-      const newBook = new BookModel(req.body)
-      const { _id } = await newBook.save()
-      res.status(201).send({ _id })
-    } catch (error) {
-      next(error)
-    }
-  })
+// cartRouter.post("/p", async (req, res, next) => {
+ 
+//       const newBook = new BookModel(req.body)
+//       const { _id } = await newBook.save()
+//       res.status(201).send({ _id })
+    
+//   })
   
-  cartRouter.get("/p", async (req, res, next) => {
-    try {
-      const mongoQuery = q2m(req.query)
-      console.log(mongoQuery)
-      const { total, books } = await Bookmodel.findBookWithAuthors(mongoQuery)
+//   cartRouter.get("/p", async (req, res, next) => {
+//     try {
+//       const mongoQuery = q2m(req.query)
+//       console.log(mongoQuery)
+//       const { total, books } = await Bookmodel.findBookWithAuthors(mongoQuery)
   
-      res.send({ links: mongoQuery.links("/books", total), pageTotal: Math.ceil(total / mongoQuery.options.limit), total, books })
-    } catch (error) {
-      next(error)
-    }
-  })
+//       res.send({ links: mongoQuery.links("/books", total), pageTotal: Math.ceil(total / mongoQuery.options.limit), total, books })
+//     } catch (error) {
+//       next(error)
+//     }
+//   })
 
 
 
@@ -74,7 +72,7 @@ cartRouter.post("/p", async (req, res, next) => {
    
   })
 
-    cartRouter.get("/", async (req, res, next) => {
+    cartRouter.get("/:ownerId", async (req, res, next) => {
 
         // 1. Find cart by ownerId
         const cart = await CartModel.find({ status: "active" })
