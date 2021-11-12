@@ -23,4 +23,18 @@ productsRouter.get("/", async(req, res, next)=> {
     }
 })
 
-productsRouter
+
+
+productsRouter.get("/:productId", async(req, res, next)=> {
+    try {
+        const id = req.params.productId
+
+        const product = await productModel.findById(id)
+        if (product) {
+            res.send(product)
+        }
+    }catch (error) {
+        next(error)
+    }
+})
+
