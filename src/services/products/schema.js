@@ -1,5 +1,5 @@
-import moongoose from "mongoose"
-const { Schema, model } = mongoose
+import mongoose from "mongoose"
+
 
 /* {
     "_id": "5d318e1a8541744830bef139", //SERVER GENERATED
@@ -21,7 +21,7 @@ const { Schema, model } = mongoose
 }
      }  */ 
 
-     const productSchema = new Schema(
+     const productSchema = new mongoose.Schema(
         {
           name: {type: String, required: true},
           description: { type: String, required: true },
@@ -44,4 +44,4 @@ const { Schema, model } = mongoose
         }
       )
   
-  export default model("Product", productSchema);
+  export default mongoose.model("Product", productSchema);
