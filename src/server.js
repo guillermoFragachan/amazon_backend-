@@ -8,6 +8,7 @@ import cartRouter from "./services/cart/index.js"
 import productsRouter from "./services/products/index.js"
 import userRouter from "../src/services/users/index.js"
 
+import { notFoundHandler, badRequestHandler, genericErrorHandler } from "./errorHandlers.js"
 
 
 dotenv.config()
@@ -29,7 +30,11 @@ server.use('/product', productsRouter)
 server.use('/user', userRouter)
 
 
+// ERROR HANDLERS 
 
+server.use(notFoundHandler)
+server.use(badRequestHandler)
+server.use(genericErrorHandler)
 
 mongoose.connect(process.env.URL2)
 
