@@ -12,6 +12,7 @@ dotenv.config();
 
 const server = express();
 
+
 server.use(cors());
 server.use(express.json());
 
@@ -33,6 +34,12 @@ async function main() {
 
 console.table(listEndpoints(server));
 const port = 3001;
+
+// ERROR HANDLERS 
+
+server.use(notFoundHandler)
+server.use(badRequestHandler)
+server.use(genericErrorHandler)
 server.listen(port, () => {
   console.log(`😎 Server is running on port ${port}`);
 });
