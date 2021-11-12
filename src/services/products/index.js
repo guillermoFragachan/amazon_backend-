@@ -37,3 +37,4 @@ productsRouter.get("/:productId", async(req, res, next)=> {
         next(error)
     }
 })
+
