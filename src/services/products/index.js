@@ -63,7 +63,7 @@ productsRouter.put("/:productId", async (req, res, next) => {
     }
   })
   
-  productsRouter.delete("/:productId", async (req, res, next) => {
+  productsRouter.delete("/:productrId", async (req, res, next) => {
     try {
       const id = req.params.productId
   
@@ -80,42 +80,106 @@ productsRouter.put("/:productId", async (req, res, next) => {
     }
   })
 
-  productsRouter.post("/:productId/reviews", async(req,res,next)=> {
+  productsRouter.post("/:productId/reviews", async (req, res, next) => {
+
     try {
-      const newReview = req.body
-
-      const updatedProduct = await ProductModel.findByIdAndUpdate(
-        productId,
-        { $push: { reviews: newReview } },
-        { new: true }
-      )
-
-      if (updatedProduct) {
-        res.send(updatedProduct)
-      } else {
-        next(createError(404, `Product with _id ${productId} not found!`))
-      }
+        const id = req.params.productId
+        const newReview = req.body
+        const product = await ProductModel.findById(id)
+        if (product) {
+            product.reviews.push(newReview)
+            const updatedProduct = await product.save()
+            res.send(updatedProduct)
+        } else {
+            res
+            .status(404)
+            .send({ message: `product with ${id} is not found!` })
+        }
     } catch (error) {
-      next(error)
+        next(error)
+    }
+}
+  )
+
+  productsRouter.get("/:productId/reviews", async (req, res, next) => {
+    try {
+        const id = req.params.productId
+        const product = await ProductModel.findById(id)
+        if (product) {
+            res.send(product.reviews)
+        } else {
+            res
+            .status(404)
+            .send({ message: `product with ${id} is not found!` })
+        }
+    } catch (error) {
+        next(error)
+    }
+}
+  
+  
+  )
+
+  productsRouter.delete("/:productId/reviews/:reviewId", async (req, res, next) => {
+    try {
+        const id = req.params.productId
+        const reviewId = req.params.reviewId
+        const product = await ProductModel.findById(id)
+
+        if (product) {
+            const reviewIndex = product.reviews.findIndex(review => review._id.toString() === reviewId)
+            if (reviewIndex !== -1) {
+                product.reviews.splice(reviewIndex, 1)
+                const updatedProduct = await product.save()
+                res.send(updatedProduct)
+            } else {
+                res
+                .status(404)
+                .send({ message: `review with ${reviewId} is not found!` })
+            }
+        } else {
+            res
+            .status(404)
+            .send({ message: `product with ${id} is not found!` })
+        }
+    } catch (error) {
+        next(error)
     }
   })
 
-  // GET /products/:productId/reviews => returns all the reviews for the specified product
+  productsRouter.put("/:productId/reviews/:reviewId", async (req, res, next) => {
+    try {
+        const id = req.params.productId
+        const reviewId = req.params.reviewId
+        const updatedReview = req.body
+        const product = await ProductModel.findById(id)
+        if (product) {
+            const reviewIndex = product.reviews.findIndex(review => review._id.toString() === reviewId)
+            if (reviewIndex !== -1) {
+                product.reviews[reviewIndex] = updatedReview
+                const updatedProduct = await product.save()
+                res.send(updatedProduct)
+            } else {
+                res
+                .status(404)
+                .send({ message: `review with ${reviewId} is not found!` })
+            }
+        } else {
+            res
+            .status(404)
+            .send({ message: `product with ${id} is not found!` })
+        }
+    } catch (error) {
+        next(error)
+    }
+  })
 
-productsRouter.get("/:productId/reviews", async (req, res, next) => {
-  console.log(req.params.productId)
-  try {
-      const product = await ProductModel.findById(req.params.productId)
-      
-      if (product) {
-          res.send(blogPost.comments)
-      } else {
-          next(createError(404, `Blog post with id ${req.params.id} not found!`))
+
+ /*  productsRouter.post("/:productId/reviews", async(req,res,next)=> {
+      try {
+          const 
       }
-  } catch (error) {
-      next(error)
-  }
-})
+  }) */
   
 
 export default productsRouter
