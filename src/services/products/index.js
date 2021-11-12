@@ -63,7 +63,7 @@ productsRouter.put("/:productId", async (req, res, next) => {
     }
   })
   
-  productsRouter.delete("/:productrId", async (req, res, next) => {
+  productsRouter.delete("/:productId", async (req, res, next) => {
     try {
       const id = req.params.productId
   
@@ -80,11 +80,42 @@ productsRouter.put("/:productId", async (req, res, next) => {
     }
   })
 
- /*  productsRouter.post("/:productId/reviews", async(req,res,next)=> {
-      try {
-          const 
+  productsRouter.post("/:productId/reviews", async(req,res,next)=> {
+    try {
+      const newReview = req.body
+
+      const updatedProduct = await ProductModel.findByIdAndUpdate(
+        productId,
+        { $push: { reviews: newReview } },
+        { new: true }
+      )
+
+      if (updatedProduct) {
+        res.send(updatedProduct)
+      } else {
+        next(createError(404, `Product with _id ${productId} not found!`))
       }
-  }) */
+    } catch (error) {
+      next(error)
+    }
+  })
+
+  // GET /products/:productId/reviews => returns all the reviews for the specified product
+
+productsRouter.get("/:productId/reviews", async (req, res, next) => {
+  console.log(req.params.productId)
+  try {
+      const product = await ProductModel.findById(req.params.productId)
+      
+      if (product) {
+          res.send(blogPost.comments)
+      } else {
+          next(createError(404, `Blog post with id ${req.params.id} not found!`))
+      }
+  } catch (error) {
+      next(error)
+  }
+})
   
 
 export default productsRouter
