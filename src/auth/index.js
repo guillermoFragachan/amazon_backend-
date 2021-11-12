@@ -7,7 +7,7 @@ const authRouter = express.Router();
 
 // *******************REGISTER********************
 authRouter.post("/register", async (req, res) => {
-  const newUser = new User({
+  const newUser = new UserModel({
     username: req.body.username,
     email: req.body.email,
     // crypto-js packace script to encrypt password.
