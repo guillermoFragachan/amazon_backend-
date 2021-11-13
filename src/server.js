@@ -28,7 +28,7 @@ server.use("/users/", usersRouter);
 main().catch((err) => console.log(err));
 
 async function main() {
-  await mongoose.connect(process.env.MONGO_URL);
+  await mongoose.connect(process.env.URL2);
   console.log("❤ DB is running succesfully")
 }
 
@@ -37,9 +37,9 @@ const port = 3001;
 
 // ERROR HANDLERS 
 
-server.use(notFoundHandler)
-server.use(badRequestHandler)
-server.use(genericErrorHandler)
+// server.use(notFoundHandler)
+// server.use(badRequestHandler)
+// server.use(genericErrorHandler)
 server.listen(port, () => {
   console.log(`😎 Server is running on port ${port}`);
 });

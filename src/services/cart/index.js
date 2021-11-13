@@ -86,7 +86,7 @@ const cartRouter = express.Router()
     cartRouter.get("/", async (req, res, next) => {
 
         // 1. Find cart by ownerId
-        const cart = await CartModel.find({ status: "active" })
+        const cart = await CartModel.find()
   
         if (cart) {
           res.send(cart)
